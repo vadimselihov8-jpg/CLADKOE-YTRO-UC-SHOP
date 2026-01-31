@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UC Shop - Покупка UC для PUBG Mobile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-yellow: #FFD700;
+            --neon-orange: #FF6B00;
+            --dark-bg: #0a0a0f;
+            --card-bg: #151520;
+            --accent: #ff3e3e;
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--dark-bg);
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 62, 62, 0.1) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+        
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Header */
+        header {
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--neon-yellow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo::before {
+            content: "🎮";
+            font-size: 2.5rem;
+            -webkit-text-fill-color: initial;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            position: relative;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-yellow);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--neon-yellow);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: bounce 0.5s ease;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            background: linear-gradient(45deg, #fff, var(--neon-yellow), var(--neon-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(255, 107, 0, 0.8)); }
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: #aaa;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--neon-yellow);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        /* Products Section */
+        .products {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--neon-yellow), transparent);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s;
+            opacity: 0;
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+            top: -100%;
+            left: -100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-yellow);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+        }
+        
+        .uc-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--neon-yellow);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .uc-label {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .bonus {
+            background: linear-gradient(45deg, var(--neon-orange), var(--accent));
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 1.5rem;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            color: #888;
+        }
+        
+        .buy-btn {
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-orange));
+            border: none;
+            color: #000;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .buy-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.5s;
+        }
+        
+        .buy-btn:hover::after {
+            left: 100%;
+        }
+        
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        .buy-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Popular Badge */
+        .popular {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0 0 10px 10px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(255, 62, 62, 0.3);
+        }
+        
+        /* How to Order Section */
+        .how-to-order {
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .step-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: rgba(255, 215, 0, 0.2);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+        }
+        
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--neon-yellow);
+        }
+        
+        .step p {
+            color: #888;
+            font-size: 1rem;
+        }
+        
+        /* Cart Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--neon-yellow);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+        
+        .modal h2 {
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 1.5rem;
+            color: var(--neon-yellow);
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+        
+        .cart-item-info h4 {
+            color: var(--neon-yellow);
+            margin-bottom: 0.3rem;
+        }
+        
+        .cart-item-info p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .cart-item-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .remove-item {
+            background: var(--accent);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .remove-item:hover {
+            transform: scale(1.1);
+            background: #ff5555;
+        }
+        
+        .cart-total {
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-orange));
+            border: none;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.4);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            color: #888;
+            padding: 2rem;
+        }
+        
+        /* Checkout Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-yellow);
+            font-weight: 600;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--neon-yellow);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 2rem 0;
+            text-align: center;
+            color: #888;
+        }
+        
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            font-size: 2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .uc-amount {
+                font-size: 2.5rem;
+            }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-orange));
+            color: #000;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 3000;
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.4);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">UC SHOP</div>
+                <ul class="nav-links">
+                    <li><a href="#products">Товары</a></li>
+                    <li><a href="#how-to-order">Как заказать</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+                <div class="cart-icon" onclick="openCart()">
+                    🛒
+                    <span class="cart-count" id="cartCount" style="display: none;">0</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Пополнение UC PUBG Mobile</h1>
+            <p>Мгновенное пополнение Unknown Cash по выгодным ценам. Официальное пополнение без бана.</p>
+            <div class="features">
+                <div class="feature">⚡ Мгновенная доставка</div>
+                <div class="feature">🔒 Безопасная оплата</div>
+                <div class="feature">💯 Гарантия качества</div>
+                <div class="feature">🎁 Бонусы при покупке</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title">Выберите количество UC</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="uc-amount">60</div>
+                    <div class="uc-label">UC</div>
+                    <div class="price">99 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(60, 99)">Купить</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="uc-amount">325</div>
+                    <div class="uc-label">UC</div>
+                    <div class="bonus">+25 бонусов</div>
+                    <div class="price">449 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(325, 449)">Купить</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="popular">Популярное</div>
+                    <div class="uc-amount">660</div>
+                    <div class="uc-label">UC</div>
+                    <div class="bonus">+60 бонусов</div>
+                    <div class="price">899 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(660, 899)">Купить</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="uc-amount">1800</div>
+                    <div class="uc-label">UC</div>
+                    <div class="bonus">+200 бонусов</div>
+                    <div class="price">2 290 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(1800, 2290)">Купить</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="uc-amount">3850</div>
+                    <div class="uc-label">UC</div>
+                    <div class="bonus">+500 бонусов</div>
+                    <div class="price">4 490 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(3850, 4490)">Купить</button>
+                </div>
+                
+                <div class="product-card">
+                    <div class="popular">Выгодно</div>
+                    <div class="uc-amount">8100</div>
+                    <div class="uc-label">UC</div>
+                    <div class="bonus">+1200 бонусов</div>
+                    <div class="price">8 990 ₽</div>
+                    <button class="buy-btn" onclick="addToCart(8100, 8990)">Купить</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Order Section -->
+    <section class="how-to-order" id="how-to-order">
+        <div class="container">
+            <h2 class="section-title">Как сделать заказ</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <span class="step-icon">🛍️</span>
+                    <h3>Выберите товар</h3>
+                    <p>Выберите нужное количество UC из нашего каталога</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <span class="step-icon">📝</span>
+                    <h3>Укажите ID</h3>
+                    <p>Введите ваш Player ID из PUBG Mobile</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <span class="step-icon">💳</span>
+                    <h3>Оплатите</h3>
+                    <p>Оплатите удобным способом - картой или криптовалютой</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <span class="step-icon">⚡</span>
+                    <h3>Получите UC</h3>
+                    <p>UC поступят на ваш аккаунт в течение 5-15 минут</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacts">
+        <div class="container">
+            <div class="payment-methods">
+                <span>💳</span>
+                <span>📱</span>
+                <span>₿</span>
+            </div>
+            <p>© 2024 UC Shop. Неофициальный магазин UC для PUBG Mobile.</p>
+            <p>PlayerUnknown's Battlegrounds является зарегистрированной торговой маркой Krafton, Inc.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeCart()">×</button>
+            <h2>🛒 Ваша корзина</h2>
+            <div id="cartItems">
+                <div class="empty-cart">Корзина пуста</div>
+            </div>
+            <div id="cartFooter" style="display: none;">
+                <div class="cart-total">
+                    <span>Итого:</span>
+                    <span id="cartTotal">0 ₽</span>
+                </div>
+                <button class="checkout-btn" onclick="openCheckout()">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeCheckout()">×</button>
+            <h2>📋 Оформление заказа</h2>
+            <form id="checkoutForm" onsubmit="processOrder(event)">
+                <div class="form-group">
+                    <label>Ваш Player ID</label>
+                    <input type="text" placeholder="Введите ваш ID из PUBG Mobile" required id="playerId">
+                </div>
+                <div class="form-group">
+                    <label>Ник в игре</label>
+                    <input type="text" placeholder="Для проверки правильности ID" required id="playerName">
+                </div>
+                <div class="form-group">
+                    <label>Email для чека</label>
+                    <input type="email" placeholder="email@example.com" required id="playerEmail">
+                </div>
+                <div class="form-group">
+                    <label>Промокод (если есть)</label>
+                    <input type="text" placeholder="Необязательно">
+                </div>
+                <div class="cart-total" style="margin-bottom: 1rem;">
+                    <span>К оплате:</span>
+                    <span id="checkoutTotal">0 ₽</span>
+                </div>
+                <button type="submit" class="checkout-btn">Подтвердить заказ</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">Товар добавлен в корзину!</div>
+
+    <script>
+        let cart = [];
+        
+        function addToCart(amount, price) {
+            const existingItem = cart.find(item => item.amount === amount);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    amount: amount,
+                    price: price,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showNotification(`${amount} UC добавлено в корзину!`);
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+        
+        function updateCart() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            if (totalItems > 0) {
+                cartCount.style.display = 'flex';
+                cartCount.textContent = totalItems;
+                cartFooter.style.display = 'block';
+                cartTotal.textContent = totalPrice.toLocaleString() + ' ₽';
+                
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.amount} UC</h4>
+                            <p>Количество: ${item.quantity}</p>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div class="cart-item-price">${(item.price * item.quantity).toLocaleString()} ₽</div>
+                            <button class="remove-item" onclick="removeFromCart(${index})">×</button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                cartCount.style.display = 'none';
+                cartFooter.style.display = 'none';
+                cartItems.innerHTML = '<div class="empty-cart">Корзина пуста</div>';
+            }
+        }
+        
+        function openCart() {
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+        
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+        
+        function openCheckout() {
+            closeCart();
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.getElementById('checkoutTotal').textContent = totalPrice.toLocaleString() + ' ₽';
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+        
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+        
+        function processOrder(e) {
+            e.preventDefault();
+            const playerId = document.getElementById('playerId').value;
+            const playerName = document.getElementById('playerName').value;
+            
+            // Здесь обычно отправка данных на сервер
+            alert(`Заказ оформлен!\n\nPlayer ID: ${playerId}\nНик: ${playerName}\n\nВ ближайшее время с вами свяжется оператор для подтверждения оплаты.`);
+            
+            cart = [];
+            updateCart();
+            closeCheckout();
+        }
+        
+        function showNotification(text) {
+            const notification = document.getElementById('notification');
+            notification.textContent = text;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
